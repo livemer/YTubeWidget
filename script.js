@@ -3,8 +3,15 @@ const main = document.querySelector("main");
 const footer = document.querySelector("footer");
 const youtubeInp = document.querySelector(".youtubeInp");
 const youtubeBtn = document.querySelector(".youtubeBtn");
+const youtubeForm = document.querySelector(".youtubeForm");
 
 youtubeBtn.addEventListener('click', () => {
+  const text = youtubeInp.value.trim()
+  searchVideo(text)
+})
+
+youtubeForm.addEventListener('submit', (event) => {
+  event.preventDefault(); 
   const text = youtubeInp.value.trim()
   searchVideo(text)
 })
@@ -15,15 +22,15 @@ function searchVideo(text){
     .then(data => {
       const items = data.items
 
-      setVideo(items[0]['id']['videoId'])
+      setVideo(items[0].id.videoId)
       footer.innerHTML = ''
 
       for (let i = 0; i < 5; i++) {
         const img = document.createElement('img')
-        img.src = items[i]['snippet']['thumbnails']['default']['url']
+        img.src = items[i].snippet.thumbnails.default.url
 
         img.addEventListener('click', () => {
-          setVideo(items[i]['id']['videoId'])
+          setVideo(items[i].id.videoId)
         });
 
         footer.append(img)
@@ -48,7 +55,7 @@ const getUsers = async () => {
     const data = await response.json();
 
     for(let i = 0; i < data.length; i++){
-      usersText.innerText += `${data[i]['name']}  |  ${data[i]['email']}
+      usersText.innerText += `${data[i].name}  |  ${data[i].email}
       `
     }
 
@@ -65,10 +72,15 @@ const githubInp = document.querySelector(".githubInp");
 const githubBtn = document.querySelector(".githubBtn");
 const githubText = document.querySelector(".githubText");
 const githubInfo = document.querySelector(".githubInfo");
+const githubForm = document.querySelector(".githubForm");
 
 githubBtn.addEventListener('click', () => {
   const text = githubInp.value.trim()
   getGithubUser(text)
+})
+
+githubForm.addEventListener('submit', (event) => {
+  event.preventDefault(); 
 })
 
 const getGithubUser = async (userName) => {
@@ -81,10 +93,10 @@ const getGithubUser = async (userName) => {
     }
     else{
       const data = await response.json();
-      let avatarUrl = data['avatar_url'];
-      let creationDate = data['created_at'];
-      let repos = data['public_repos'];
-      let url = data['html_url'];
+      let avatarUrl = data.avatar_url;
+      let creationDate = data.created_at;
+      let repos = data.public_repos;
+      let url = data.html_url;
 
       githubText.innerText = ``
       githubInfo.innerHTML = `
